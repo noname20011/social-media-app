@@ -16,7 +16,7 @@ const Navbar = ({ user, searchTerm, setSearchTerm }) => {
                     onFocus={() => navigate('/search')}
                     />
             </div>
-                {user && (
+                {user ? (
                     <div className='flex items-center gap-2'>
                         <Link to={'/create'}>
                             <div className='p-2 bg-black rounded-lg flex place-items-center hover:bg-violet-500/50' >
@@ -27,6 +27,11 @@ const Navbar = ({ user, searchTerm, setSearchTerm }) => {
                             <img src={user?.imageUrl} alt={user?.userName} className='w-10 rounded-full object-cover'/>
                         </Link>
                     </div>
+                ) : (
+                    <Link to={'/login'}
+                        className='md:block hidden py-2 px-3 rounded-lg bg-red-500 opacity-75 hover:opacity-100 text-white'>
+                        Login
+                    </Link>
                 )}
         </div>
     )

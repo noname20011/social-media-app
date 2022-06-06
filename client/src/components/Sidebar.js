@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RiHome2Fill } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import { AiOutlineLogout } from 'react-icons/ai'
@@ -6,6 +6,7 @@ import { GoogleLogout } from 'react-google-login'
 import { categories } from '../utils/query'
 import Logo from '../assets/logo.png'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Sidebar = ({user, setToggleSideBar}) => {
     const navigate = useNavigate()
@@ -17,10 +18,13 @@ const Sidebar = ({user, setToggleSideBar}) => {
     }
     
     const handleLogout = () => {
-        setToggleSideBar(false)
         localStorage.clear()
-        navigate('/')
+        navigate('/login')
     }
+
+    useEffect(() => {
+
+    }, [])
     return (
         <div className='ml-6 w-inherit flex flex-col justify-between bg-white h-full overflow-y-scroll md:overflow-y-hidden'>
             <div className='flex flex-col'>
