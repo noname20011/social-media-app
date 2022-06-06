@@ -10,19 +10,25 @@ import Spinner from './Spinner'
 const activeBtnStyles = 'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none'
 const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none'
 const UserProfile = () => {
+
     const [user, setUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null)
     const [pins, setPins] = useState(null)
     const [text, setText] = useState('Created')
     const [activeBtn, setActiveBtn] = useState('created')
     const navigate = useNavigate()
     const { userId } = useParams()
-    
+
     useEffect(() => {
         const query = userQuery(userId)
         client.fetch(query)
             .then(data => {
                 setUser(data[0])
             })
+        if(JSON.parse(localStorage.getItem('user')) !== null) {
+            const { googleId } = JSON.parse(localStorage.getItem('user')) 
+            setCurrentUser(googleId)
+        }
     }, [userId])
 
     useEffect(() => {
@@ -60,18 +66,18 @@ const UserProfile = () => {
                             className='-mt-10 w-20 h-20 rounded-full '/>
                         <h1 className='font-bold text-2xl text-center mt-3'>{user?.userName}</h1>
                         <div className='absolute right-3 top-3 z-10 p-2'>
-                            <GoogleLogout
+                            { userId === currentUser ? <GoogleLogout
                                 clientId='593365380236-m2d8rfm1coptppqebha102c93akj8jkq.apps.googleusercontent.com'
                                 render={(renderProps) => (
-                                    <button type='button' className='p-3 rounded-full flex justify-center items-center text-red-300 bg-gray-500 opacity-75 hover:opacity-100'
-                                        onClick={renderProps.onClick}
-                                        disabled={renderProps.disabled}>
-                                        <AiOutlineLogout size={32}/>
-                                    </button>
-                                )}
+                                        <button type='button' className='p-3 rounded-full flex justify-center items-center text-red-300 bg-gray-500 opacity-75 hover:opacity-100'
+                                            onClick={renderProps.onClick}
+                                            disabled={renderProps.disabled}>
+                                            <AiOutlineLogout size={32}/>
+                                        </button>
+                                    )}
                                 onLogoutSuccess={handleLogout}
                                 cookiePolicy='single_host_origin'
-                            />
+                            /> : null }
                         </div>
                     </div>
                     <div className='text-center mt-7 '>
